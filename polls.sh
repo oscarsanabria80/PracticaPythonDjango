@@ -1,7 +1,6 @@
 #! /bin/sh
 
-sleep 2
-python3 manage.py makemigrations
+sleep 8
 python3 manage.py migrate
 python3 manage.py createsuperuser --noinput
 python3 manage.py collectstatic --noinput
