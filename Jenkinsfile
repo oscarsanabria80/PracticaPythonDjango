@@ -15,12 +15,12 @@ pipeline {
                 }
                 stage('Install') {
                     steps {
-                        sh 'pip install -r web/requirements.txt'
+                        sh 'pip install -r requirements.txt'
                     }
                 }
                 stage('Test') {
                     steps {
-                        sh 'python3 web/manage.py test'
+                        sh 'python3 manage.py test'
                     }
                 }
                 stage('copy settings.py') {
@@ -37,7 +37,7 @@ pipeline {
                     steps {
                         script {
                             withDockerRegistry([credentialsId: 'DOCKER_HUB', url: '']) {
-                            def dockerImage = docker.build("oscarsanabria80/django:v9")
+                            def dockerImage = docker.build("oscarsanabria80/django:v10")
                             dockerImage.push()
                             }
                         }
@@ -46,7 +46,7 @@ pipeline {
                 stage('Remove image') {
                     steps {
                         script {
-                            sh "docker rmi oscarsanabria80/django:v9"
+                            sh "docker rmi oscarsanabria80/django:v10"
                         }
                     }
                 }
