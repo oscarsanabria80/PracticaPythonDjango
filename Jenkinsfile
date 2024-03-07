@@ -25,7 +25,7 @@ pipeline {
                 }
                 stage('copy settings.py') {
                     steps {
-                        sh 'cp web/django_tutorialsettings.bak web/django_tutorialsettings.py'
+                        sh 'cp web/django_tutorial/settings.bak web/django_tutorial/settings.py'
                     }
                 }
             }
