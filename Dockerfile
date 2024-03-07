@@ -2,8 +2,8 @@ FROM python:3
 WORKDIR /usr/src/app
 MAINTAINER Oscar Ponce de Leon Sanabria "oscarp.poncedeleonsanabria80@gmail.com"
 #RUN git clone https://github.com/oscarsanabria80/django_tutorial_oscar.git /usr/src/app && mkdir static
-RUN pip install --root-user-action=ignore -r requirements.txt
-COPY . /usr/src/app 
+COPY . /usr/src/app
+RUN pip install --root-user-action=ignore --upgrade pip && pip install --root-user-action=ignore -r requirements.txt
 ADD ./polls.sh .
 RUN chmod +x polls.sh
 ENV ALLOWED_HOSTS=*
