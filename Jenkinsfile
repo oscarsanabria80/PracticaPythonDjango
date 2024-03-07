@@ -1,17 +1,16 @@
 pipeline {
     agent none
     stages {
-        stage('Testear django') {
-            agent {
-                docker {
-                    image 'python:3'
-                    args '-u root:root'
+        stage ('Testear django') { 
+            agent { 
+                docker { image 'python:3'
+                args '-u root:root'
                 }
             }
             stages {
                 stage('Clone') {
                     steps {
-                        git branch: 'master', url: 'https://github.com/oscarsanabria80/django_tutorial.git'
+                        git branch:'master',url:'https://github.com/oscarsanabria80/django_tutorial.git'
                     }
                 }
                 stage('Install') {
@@ -24,23 +23,22 @@ pipeline {
                         sh 'python3 manage.py test'
                     }
                 }
-            }
-        }
-
-        stage('Build and push image') {
-            agent any
-            stages {
-                stage('Clone') {
+                stage('copy settings.py') {
                     steps {
-                        git branch: 'master', url: 'https://github.com/oscarsanabria80/PracticaPythonDjango.git'
+                        sh 'cp settings.bak settings.py'
                     }
                 }
+            }
+        }
+        stage('Upload img') {
+            agent any
+            stages {
                 stage('Build and push') {
                     steps {
                         script {
                             withDockerRegistry([credentialsId: 'DOCKER_HUB', url: '']) {
-                                def dockerImage = docker.build("oscarsanabria80/django:v7")
-                                dockerImage.push()
+                            def dockerImage = docker.build("oscarsanabria80/django:v7")
+                            dockerImage.push()
                             }
                         }
                     }
@@ -54,13 +52,12 @@ pipeline {
                 }
             }
         }
-
         stage('Deploy') {
             agent any
             steps {
                 script {
                     sshagent(credentials: ['SSH_VPS']) {
-                        sh "ssh -o StrictHostKeyChecking=no oscar@oscarsanabria.blog wget https://raw.githubusercontent.com/oscarsanabria80/PracticaPythonDjango/main/docker-compose.yml -O docker-compose.yaml"
+                        sh "ssh -o StrictHostKeyChecking=no oscar@oscarsanabria.blog wget https://raw.githubusercontent.com/oscarsanabria80/django_tutorial/master/docker-compose.yaml -O docker-compose.yaml"
                         sh "ssh -o StrictHostKeyChecking=no oscar@oscarsanabria.blog docker-compose up -d --force-recreate"
                     }
                 }
