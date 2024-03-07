@@ -22,17 +22,17 @@ pipeline {
                     steps {
                         sh 'python3 manage.py test'
                     }
-                }
-                stage('copy settings.py') {
-                    steps {
-                        sh 'cp django_tutorial/settings.bak  django_tutorial/settings.py'
-                    }
-                }
+                }  
             }
         }
         stage('Upload img') {
             agent any
             stages {
+                stage('copy settings.py') {
+                    steps {
+                        sh 'cp django_tutorial/settings.bak  django_tutorial/settings.py'
+                    }
+                }
                 stage('Build and push') {
                     steps {
                         script {
