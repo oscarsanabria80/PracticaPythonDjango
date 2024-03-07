@@ -10,7 +10,7 @@ pipeline {
             stages {
                 stage('Clone') {
                     steps {
-                        git branch:'master',url:'https://github.com/oscarsanabria80/django_tutorial.git'
+                        git branch:'main',url:'https://github.com/oscarsanabria80/PracticaPythonDjango.git'
                     }
                 }
                 stage('Install') {
@@ -25,7 +25,7 @@ pipeline {
                 }
                 stage('copy settings.py') {
                     steps {
-                        sh 'cp settings.bak settings.py'
+                        sh 'cp web/django_tutorialsettings.bak web/django_tutorialsettings.py'
                     }
                 }
             }
