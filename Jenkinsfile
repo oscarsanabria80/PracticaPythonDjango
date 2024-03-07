@@ -15,12 +15,12 @@ pipeline {
                 }
                 stage('Install') {
                     steps {
-                        sh 'pip install -r requirements.txt'
+                        sh 'pip install -r web/requirements.txt'
                     }
                 }
                 stage('Test') {
                     steps {
-                        sh 'python3 manage.py test'
+                        sh 'python3 web/manage.py test'
                     }
                 }
                 stage('copy settings.py') {
