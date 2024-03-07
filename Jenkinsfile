@@ -25,7 +25,7 @@ pipeline {
                 }
                 stage('copy settings.py') {
                     steps {
-                        sh 'cat django_tutorial/settings.bak > django_tutorial/settings.py'
+                        sh 'cp django_tutorial/settings.bak  django_tutorial/settings.py'
                     }
                 }
             }
@@ -37,7 +37,7 @@ pipeline {
                     steps {
                         script {
                             withDockerRegistry([credentialsId: 'DOCKER_HUB', url: '']) {
-                            def dockerImage = docker.build("oscarsanabria80/django:v10")
+                            def dockerImage = docker.build("oscarsanabria80/django:v11")
                             dockerImage.push()
                             }
                         }
@@ -46,7 +46,7 @@ pipeline {
                 stage('Remove image') {
                     steps {
                         script {
-                            sh "docker rmi oscarsanabria80/django:v10"
+                            sh "docker rmi oscarsanabria80/django:v11"
                         }
                     }
                 }
